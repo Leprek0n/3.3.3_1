@@ -14,12 +14,10 @@ import java.util.List;
 @Repository
 public class UserDaoImpl implements UserDaoInterface {
 
-    @PersistenceContext(unitName="entityManagerBean")
+    @PersistenceContext
     private EntityManager em;
 
     public List<User> getUserList() {
-    if(em == null)
-        System.out.println("Hello");
         return em.createQuery("from user").getResultList();
     }
 

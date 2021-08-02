@@ -8,6 +8,7 @@ import org.springframework.core.env.Environment;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.orm.jpa.JpaTransactionManager;
+import org.springframework.orm.jpa.JpaVendorAdapter;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.PlatformTransactionManager;
@@ -39,14 +40,15 @@ public class DataBaseConfig {
 
         return properties;
     }
-    @Bean
+    @Bean(name = "entityManagerFactory")
     public LocalContainerEntityManagerFactoryBean entityManagerBean() {
-        LocalContainerEntityManagerFactoryBean em = new LocalContainerEntityManagerFactoryBean();
-        em.setDataSource(dataSource());
-        em.setPackagesToScan(env.getRequiredProperty("db.entity"));
-        em.setJpaVendorAdapter(new HibernateJpaVendorAdapter());
-        em.setJpaProperties(additionalProperties());
-        return em;
+        LocalContainerEntityManagerFactoryBean lcemfb = new LocalContainerEntityManagerFactoryBean();
+        lcemfb.setJpaVendorAdapter(getJpaVendorAdapter());
+        lcemfb.setDataSource(dataSource());
+        lcemfb.setPersistenceUnitName("myJpaPersistenceUnit");
+        lcemfb.setPackagesToScan("web");
+        lcemfb.setJpaProperties(additionalProperties());
+        return lcemfb;
     }
     @Bean
     public DataSource dataSource() {
@@ -57,6 +59,10 @@ public class DataBaseConfig {
         dataSource.setPassword( env.getRequiredProperty("jdbc.password") );
         return dataSource;
     }
-
+    @Bean
+    public JpaVendorAdapter getJpaVendorAdapter() {
+        JpaVendorAdapter adapter = new HibernateJpaVendorAdapter();
+        return adapter;
+    }
 
 }

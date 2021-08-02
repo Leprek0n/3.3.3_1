@@ -6,23 +6,21 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
-@Configuration
-@EnableWebMvc
-@ComponentScan("com.qoobico.remindme.server.controller")
+
 public class WebConfig extends AbstractAnnotationConfigDispatcherServletInitializer {
 
     @Override
     protected Class<?>[] getRootConfigClasses() {
-        return new Class[] {
-                AppInit.class,
-                DataBaseConfig.class,
-                WebConfig.class
+        return new Class<?>[]{
+                AppInit.class
         };
     }
 
     @Override
     protected Class<?>[] getServletConfigClasses() {
-        return new Class[0];
+        return new Class<?>[]{
+                AppInit.class
+        };
     }
 
     @Override
