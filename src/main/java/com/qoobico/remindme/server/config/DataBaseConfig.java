@@ -19,10 +19,8 @@ import javax.sql.DataSource;
 import java.util.Properties;
 
 @Configuration
-@EnableJpaRepositories
 @EnableTransactionManagement
 @PropertySource("classpath:db.properties")
-@ComponentScan("com.qoobico.remindme.server")
 public class DataBaseConfig {
     @Resource
     private Environment env;
@@ -40,13 +38,13 @@ public class DataBaseConfig {
 
         return properties;
     }
-    @Bean(name = "entityManagerFactory")
+    @Bean
     public LocalContainerEntityManagerFactoryBean entityManagerBean() {
         LocalContainerEntityManagerFactoryBean lcemfb = new LocalContainerEntityManagerFactoryBean();
         lcemfb.setJpaVendorAdapter(getJpaVendorAdapter());
         lcemfb.setDataSource(dataSource());
         lcemfb.setPersistenceUnitName("myJpaPersistenceUnit");
-        lcemfb.setPackagesToScan("web");
+        lcemfb.setPackagesToScan("com/qoobico/remindme/server/entity");
         lcemfb.setJpaProperties(additionalProperties());
         return lcemfb;
     }
