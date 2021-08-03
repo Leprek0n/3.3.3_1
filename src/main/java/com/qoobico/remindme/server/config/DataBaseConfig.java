@@ -1,5 +1,6 @@
 package com.qoobico.remindme.server.config;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -21,9 +22,14 @@ import java.util.Properties;
 @Configuration
 @EnableTransactionManagement
 @PropertySource("classpath:db.properties")
+@ComponentScan("com.qoobico.remindme.server")
 public class DataBaseConfig {
-    @Resource
     private Environment env;
+    @Autowired
+    public void setEnv(Environment env) {
+        this.env = env;
+    }
+
     @Bean
     public PlatformTransactionManager platformTransactionManager() {
         JpaTransactionManager jpaTransactionManager = new JpaTransactionManager();
@@ -44,7 +50,7 @@ public class DataBaseConfig {
         lcemfb.setJpaVendorAdapter(getJpaVendorAdapter());
         lcemfb.setDataSource(dataSource());
         lcemfb.setPersistenceUnitName("myJpaPersistenceUnit");
-        lcemfb.setPackagesToScan("com/qoobico/remindme/server/entity");
+        lcemfb.setPackagesToScan("com.qoobico.remindme.server.entity");
         lcemfb.setJpaProperties(additionalProperties());
         return lcemfb;
     }

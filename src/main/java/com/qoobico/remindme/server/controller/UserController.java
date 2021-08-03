@@ -1,19 +1,25 @@
 package com.qoobico.remindme.server.controller;
 
-import com.qoobico.remindme.server.dao.UserDaoImpl;
-import com.qoobico.remindme.server.dao.UserDaoInterface;
+import com.qoobico.remindme.server.Service.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import javax.annotation.Resource;
+
 @Controller
-@RequestMapping("/user")
+@RequestMapping("/users")
 public class UserController {
-    UserDaoInterface userDaoInterface = new UserDaoImpl();
-    @GetMapping("/users")
+    private final UserService userService;
+    @Autowired
+    public UserController(UserService userService) {
+        this.userService = userService;
+    }
+
+    @GetMapping("/show")
     public String sayHello(Model model) {
-        model.addAttribute("users", userDaoInterface.getUserList());
-        return "views/user";
+        return "user";
     }
 }

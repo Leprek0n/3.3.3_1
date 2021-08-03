@@ -11,14 +11,17 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.persistence.*;
 import java.util.List;
 
-@Repository
+@Component
+@Transactional
 public class UserDaoImpl implements UserDaoInterface {
+    public UserDaoImpl() {
+    }
 
     @PersistenceContext
     private EntityManager em;
 
     public List<User> getUserList() {
-        return em.createQuery("from user").getResultList();
+        return em.createQuery("FROM user").getResultList();
     }
 
     public User getUserById(int id) {

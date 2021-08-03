@@ -17,7 +17,7 @@ import org.thymeleaf.spring5.view.ThymeleafViewResolver;
 @ComponentScan("com.qoobico.remindme.server.controller")
 @EnableWebMvc
 public class AppInit implements WebMvcConfigurer {
-    private final ApplicationContext applicationContext;
+    private ApplicationContext applicationContext;
 
     @Autowired
     public AppInit(ApplicationContext applicationContext) {
@@ -28,7 +28,7 @@ public class AppInit implements WebMvcConfigurer {
     public SpringResourceTemplateResolver templateResolver() {
         SpringResourceTemplateResolver templateResolver = new SpringResourceTemplateResolver();
         templateResolver.setApplicationContext(applicationContext);
-        templateResolver.setPrefix("/WEB-INF/views/");
+        templateResolver.setPrefix("/WEB-INF/pages/");
         templateResolver.setSuffix(".html");
         return templateResolver;
     }
